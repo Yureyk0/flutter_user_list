@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       ),
       home: RepositoryProvider<ApiRepository>(
         create: (context) => ApiRepository(),
-        child: const UserListPage(),
+        child:const SafeArea(child:  UserListPage()),
       ),
     );
   }
