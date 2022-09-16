@@ -1,4 +1,5 @@
 part of 'user_list_bloc.dart';
 
 @immutable
-abstract class GetUserListEvent {}
+abstract class UserListEvent {}
+class GetUserListEvent extends UserListEvent {}

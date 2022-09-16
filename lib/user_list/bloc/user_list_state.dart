@@ -5,7 +5,7 @@ abstract class UserListState extends Equatable {}
 
 class UserListInitialState extends UserListState {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class UserListLoadingState extends UserListState {
@@ -26,7 +26,6 @@ class UserListErrorState extends UserListState {
 
   UserListErrorState(this.error);
 
-  
   @override
   List<Object?> get props => [error];
 }

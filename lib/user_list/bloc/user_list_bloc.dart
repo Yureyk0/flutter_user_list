@@ -1,10 +1,9 @@
-import 'dart:html';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_user_list/services/models/item_info_model.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+
+import '../../services/models/models.dart';
 import '../../services/repository/repository.dart';
 
 part 'user_list_event.dart';
