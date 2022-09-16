@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_user_list/services/models/item_info_model.dart';
@@ -22,14 +20,12 @@ class UserListPage extends StatelessWidget {
           title: const Text('User list=)'),
           centerTitle: true,
         ),
-        body: BlocConsumer<UserListBloc, UserListState>(
-          listener: (context, state) => log('message'),
+        body: BlocBuilder<UserListBloc, UserListState>(
           builder: (context, state) {
             if (state is UserListLoadingState) {
               return const UsersListLoading();
             }
             if (state is UserListLoadedState) {
-              log('${state.usersList[0].user!.profileImage}');
               List<ItemInfoModel> userList = state.usersList;
               return ListView.builder(
                 itemCount: userList.length,

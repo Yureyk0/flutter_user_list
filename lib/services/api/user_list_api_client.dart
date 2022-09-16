@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter_user_list/services/models/models.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +15,7 @@ class UserListApiClient {
     final response = await http.get(userListRequest);
     if (response.statusCode == 200) {
       final List result = jsonDecode(response.body);
-      log('11');
+
       return (result).map((person) => ItemInfoModel.fromJson(person)).toList();
     } else {
       throw Exception(response.reasonPhrase);
