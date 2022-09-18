@@ -22,12 +22,20 @@ class UserListBloc extends Bloc<GetUserListEvent, UserListState> {
         i++;
         log(i.toString());
 
-        final userList = await _apiRepository.getUserList(countPage: i);
-        userListPag.addAll(userList);
+        // final userList = await getUserList();
+        userListPag.addAll(await getUserList());
+        if (i == 1) {
+          i++;
+          userListPag.addAll(await getUserList());
+        }
+
         emit(UserListLoadedState(userListPag));
       } catch (e) {
         emit(UserListErrorState(e.toString()));
       }
     });
+  }
+  Future<List<ItemInfoModel>> getUserList() async {
+    return await _apiRepository.getUserList(countPage: i);
   }
 }
