@@ -10,7 +10,7 @@ class UserListInitialState extends UserListState {
 
 class UserListLoadingState extends UserListState {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class UserListLoadedState extends UserListState {

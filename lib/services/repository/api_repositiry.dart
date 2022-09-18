@@ -4,5 +4,5 @@ import '../models/models.dart';
 
 class ApiRepository {
   final userListApiClient = UserListApiClient();
-  Future<List<ItemInfoModel>> getUserList() => userListApiClient.getUserList();
+  Future<List<ItemInfoModel>> getUserList({required int countPage}) => userListApiClient.getUserList(countPage: countPage);
 }
