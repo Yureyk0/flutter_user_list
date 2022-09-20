@@ -27,7 +27,10 @@ class UserListBloc extends Bloc<GetUserListEvent, UserListState> {
       try {
         i++;
         log(i.toString());
-
+        if (i == 1) {
+          i++;
+          await getUserList();
+        }
         emit(UserListLoadedState(await getUserList()));
       } catch (e) {
         emit(UserListErrorState(e.toString()));
