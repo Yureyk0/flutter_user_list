@@ -9,8 +9,12 @@ class UserListInitialState extends UserListState {
 }
 
 class UserListLoadingState extends UserListState {
+  final List<ItemInfoModel> oldUserList;
+  final bool isFirstFetch;
+
+  UserListLoadingState(this.oldUserList, {this.isFirstFetch = false});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [oldUserList, isFirstFetch];
 }
 
 class UserListLoadedState extends UserListState {

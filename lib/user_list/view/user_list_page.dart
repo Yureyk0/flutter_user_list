@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -29,30 +30,41 @@ class _UserListPageState extends State<UserListPage> {
         ),
         body: BlocBuilder<UserListBloc, UserListState>(
           builder: (context, state) {
-            if (state is UserListLoadingState) {
+            if (state is UserListErrorState) {
+              const UsersListError();
+            }
+            if (state is UserListLoadingState && state.isFirstFetch) {
               return const UsersListLoading();
             }
-            if (state is UserListLoadedState) {
-              final controllerUserList = ScrollController();
 
-              controllerUserList.addListener(() {
-                if (controllerUserList.position.maxScrollExtent ==
-                    controllerUserList.offset) {
-                  context.read<UserListBloc>().add(GetUserListEvent());
-                }
-              });
+            List<ItemInfoModel> userList = [];
+            bool isLoading = false;
 
-              @override
-              void dispoce() {
-                controllerUserList.dispose();
-                super.dispose();
+            if (state is UserListLoadingState) {
+              userList = state.oldUserList;
+              isLoading = true;
+            } else if (state is UserListLoadedState) {
+              userList = state.usersList;
+            }
+            final controllerUserList = ScrollController();
+            controllerUserList.addListener(() {
+              if (controllerUserList.position.maxScrollExtent ==
+                  controllerUserList.offset) {
+                context.read<UserListBloc>().add(GetUserListEvent());
               }
+            });
 
-              List<ItemInfoModel> userList = state.usersList;
-              return ListView.builder(
-                itemCount: userList.length,
-                controller: controllerUserList,
-                itemBuilder: (_, index) {
+            @override
+            void dispoce() {
+              controllerUserList.dispose();
+              super.dispose();
+            }
+
+            return ListView.builder(
+              itemCount: userList.length,
+              controller: controllerUserList,
+              itemBuilder: (_, index) {
+                if (index < userList.length) {
                   return InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -78,13 +90,16 @@ class _UserListPageState extends State<UserListPage> {
                       ),
                     ),
                   );
-                },
-              );
-            }
-            if (state is UserListErrorState) {
-              const UsersListError();
-            }
-            return const SizedBox.shrink();
+                } else {
+                  Timer(const Duration(milliseconds: 30), () {
+                    controllerUserList
+                        .jumpTo(controllerUserList.position.maxScrollExtent);
+                  });
+
+                  return const UsersListLoading();
+                }
+              },
+            );
           },
         ),
       ),
